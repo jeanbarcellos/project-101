@@ -5,7 +5,7 @@
 Criar rede:
 
 ```bash
-docker network create project101-net
+docker network create project101_net
 ```
 
 <br>
@@ -15,10 +15,51 @@ docker network create project101-net
 Criar volume:
 
 ```bash
-docker volume create project101_backend-db
+docker volume create project101_database_data
 ```
 
-TODO ...
+Acessar o diretório `database`
+
+```bash
+cd database
+```
+
+Gerar a imagem com as tabelas já criadas
+
+```bash
+docker build -t project101_database .
+
+docker build -t jeanbarcellos/project101_database .
+```
+
+_ATENÇÃO:_
+
+Opção 1: Caso queira levantar o container com os o banco já criado e com dados:
+
+```bash
+docker run -d --rm \
+  -p 5532:5432 \
+  --network project101_net \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=project101_java \
+  --name project101_database \
+  project101_database
+```
+
+Opção 2: Caso queira levantar o container e importar manualmente os scripts:
+
+```bash
+docker run -d --rm \
+  -p 5532:5432 \
+  --network project101_net \
+  -v "project101_database_data:/var/lib/postgresql/data" \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=project101_java \
+  --name project101_database \
+  postgres:14.5
+```
 
 <br>
 
@@ -33,18 +74,24 @@ mvn clean package -DskipTests
 Gerar imagem Docker
 
 ```bash
-docker image build -t project101/backend-java .
+docker image build -t project101_backend-java .
 ```
 
-Levantar um container com a imagem recém criada, usando o comando:
+_ATENÇÃO:_
+
+Para levantar um container com a imagem recém criada, usando o comando:
 
 ```bash
 docker run -i --rm \
-    -p 8081:8080 \
-    --name p101_backend-java \
-    --network project101-net \
-    -v p101_backend-db:/var/lib/postgresql/data \
-    project101/backend-java
+  -p 8081:8080 \
+  --network project101_net \
+  -e DB_HOST=database \
+  -e DB_PORT=5432 \
+  project101_backend-java
+
+  --name project101_backend-java \
+#
+docker run -i --rm -p 8081:8080 --network project101_net --name project101_backend-java project101_backend-java
 ```
 
 - `-i` ou `--interactive`: Mantenha o STDIN aberto mesmo se não estiver conectado
