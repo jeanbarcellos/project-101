@@ -27,8 +27,6 @@ cd database
 Gerar a imagem com as tabelas já criadas
 
 ```bash
-docker build -t project101_database .
-
 docker build -t jeanbarcellos/project101_database .
 ```
 
@@ -44,7 +42,7 @@ docker run -d --rm \
   -e POSTGRES_PASSWORD=postgres \
   -e POSTGRES_DB=project101_java \
   --name project101_database \
-  project101_database
+  jeanbarcellos/project101_database
 ```
 
 Opção 2: Caso queira levantar o container e importar manualmente os scripts:
@@ -65,6 +63,12 @@ docker run -d --rm \
 
 ### **Backend**
 
+Acessar diretorio
+
+```bash
+cd backend-java
+```
+
 Empacotar o projeto
 
 ```bash
@@ -74,7 +78,7 @@ mvn clean package -DskipTests
 Gerar imagem Docker
 
 ```bash
-docker image build -t project101_backend-java .
+docker image build -t jeanbarcellos/project101_backend-java .
 ```
 
 _ATENÇÃO:_
@@ -87,11 +91,8 @@ docker run -i --rm \
   --network project101_net \
   -e DB_HOST=database \
   -e DB_PORT=5432 \
-  project101_backend-java
-
   --name project101_backend-java \
-#
-docker run -i --rm -p 8081:8080 --network project101_net --name project101_backend-java project101_backend-java
+  jeanbarcellos/project101_backend-java
 ```
 
 - `-i` ou `--interactive`: Mantenha o STDIN aberto mesmo se não estiver conectado
@@ -119,7 +120,7 @@ Executar o container
 docker run --rm --volume "/home/react-docker:/srv/react-docker" --workdir "/srv/react-docker" --publish 3000:3000 -it node bash
 
 # Exemplo:
-docker run --rm --volume "/home/jean.barcellos/www/project-101/front.reactjs:/srv/react-docker" --workdir "/srv/react-docker" --publish 3000:3000 -it node bash
+docker run --rm --volume "/home/jean.barcellos/www/project-101/frontend-reactjs:/srv/react-docker" --workdir "/srv/react-docker" --publish 3000:3000 -it node bash
 ```
 
 Segue uma breve explicação sobre os parâmetros deste comando:
