@@ -35,7 +35,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
 
-  frontend:
+  frontend-reactjs:
     container_name: project101_frontend
     # image: node
     build: "./frontend-reactjs"

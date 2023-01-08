@@ -31,20 +31,13 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
 
-  frontend:
-    container_name: project101_frontend
-    # image: node
-    build: "./frontend-reactjs"
-    depends_on:
-      - backend
+  frontend-reactjs:
+    container_name: project101_frontend-reactjs
+    image: jeanbarcellos/project101_frontend-reactjs
     networks:
       - project101_net
     ports:
-      - 3000:3000
-    volumes:
-      - ./:/srv/react-docker
-    working_dir: /srv/react-docker
-    command: "yarn start"
+      - 8082:80
 
 networks:
   project101_net:
