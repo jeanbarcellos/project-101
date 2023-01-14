@@ -18,7 +18,7 @@ services:
 
   backend-java:
     container_name: project101_backend-java
-    image: 3.6.3-jdk-11-slim
+    image: maven:3.6.3-jdk-11-slim
     depends_on:
       - database
     ports:
@@ -33,23 +33,30 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
     volumes:
-      - ./:/usr/src/mymaven:rw
+      - maven_repo:/root/.m2
+      - ./backend-java/:/usr/src/mymaven:rw
+      - ./backend-java/target:/usr/src/mymaven/target:rw
     working_dir: /usr/src/mymaven
     command: "mvn spring-boot:run"
+    # command: "mvn clean verify"
+    # stdin_open: true
+    # tty: true
 
   frontend-reactjs:
     container_name: project101_frontend-reactjs
     image: node
     depends_on:
-      - backend
+      - backend-java
     networks:
       - project101_net
     ports:
-      - 3000:3000
+      - 8082:3000
     volumes:
-      - ./:/srv/react-docker
+      - ./frontend-reactjs/:/srv/react-docker:rw
+      - ./frontend-reactjs/node_modules/:/srv/react-docker/node_modules:rw
     working_dir: /srv/react-docker
-    command: "yarn start"
+    stdin_open: true
+    # command: "yarn start"
 
 networks:
   project101_net:
@@ -59,4 +66,8 @@ networks:
 volumes:
   project101_database_data:
     name: project101_database_data
+    driver: local
+
+  maven_repo:
+    name: maven_repo
     driver: local
