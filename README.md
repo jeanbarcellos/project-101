@@ -37,7 +37,7 @@ _ATENÇÃO_: Na primeira vez, você deve importar os arquivos de criação dos b
 Se você deseja apenas levantar o banco de dado, para rodar o `backend` e `frontend` separadamente execute.
 
 ```bash
-docker-compose -f docker-compose_build.yml up -d
+docker-compose -f docker-compose_build.yml up -d --build
 ```
 
 Derrubar/baixar containers
@@ -86,6 +86,12 @@ chmod -R 777 node_modules/
 
 # Rodar app
 yarn start
+```
+
+Derrubar/baixar containers
+
+```bash
+docker-compose down
 ```
 
 #### **Extra - Rodar individualmente em _bind mount_**

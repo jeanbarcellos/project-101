@@ -45,8 +45,6 @@ services:
   frontend-reactjs:
     container_name: project101_frontend-reactjs
     image: node
-    depends_on:
-      - backend-java
     networks:
       - project101_net
     ports:

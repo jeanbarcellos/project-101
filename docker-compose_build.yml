@@ -21,7 +21,7 @@ services:
     image: jeanbarcellos/project101_backend-java
     build:
       context: ./backend-java
-      dockerfile: "./backend-java/Dockerfile.multistage"
+      dockerfile: "Dockerfile.multistage"
     depends_on:
       - database
     ports:
@@ -35,15 +35,15 @@ services:
       - DB_NAME=project101_java
       - DB_USER=postgres
       - DB_PASSWORD=postgres
+    volumes:
+      - maven_repo:/root/.m2
 
   frontend-reactjs:
     container_name: project101_frontend-reactjs
     image: "jeanbarcellos/project101_frontend-reactjs"
     build:
       context: ./frontend-reactjs
-      dockerfile: "./frontend-reactjs/Dockerfile.multistage"
-    depends_on:
-      - backend
+      dockerfile: "Dockerfile.multistage"
     networks:
       - project101_net
     ports:
@@ -61,4 +61,8 @@ networks:
 volumes:
   project101_database_data:
     name: project101_database_data
+    driver: local
+
+  maven_repo:
+    name: maven_repo
     driver: local
