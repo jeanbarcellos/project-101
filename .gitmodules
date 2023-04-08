@@ -1,3 +1,6 @@
 [submodule "backend-java"]
 	path = backend-java
 	url = git@github.com:jeanbarcellos/project-101.backend-java.git
+[submodule "frontend-reactjs"]
+	path = frontend-reactjs
+	url = git@github.com:jeanbarcellos/project-101.frontend-reactjs.git
