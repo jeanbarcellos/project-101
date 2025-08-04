@@ -12,9 +12,9 @@ services:
     volumes:
       - project101_database_data:/var/lib/postgresql/data
     environment:
+      - POSTGRES_DB=project101_java
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=project101_java
 
 networks:
   project101_net:
